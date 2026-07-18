@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF8E7"/>
+      <stop offset="55%" stop-color="#F3F8F2"/>
+      <stop offset="100%" stop-color="#E6F2EC"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#FFC531" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFC531" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#0E5C42" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="1500" fill="url(#bg)"/>
+
+  <!-- ambient shapes -->
+  <circle cx="600" cy="660" r="410" fill="#C9E9D9" opacity="0.55"/>
+  <circle cx="905" cy="330" r="150" fill="#FFC531" opacity="0.26"/>
+  <circle cx="205" cy="1180" r="120" fill="#FDE9E2" opacity="0.85"/>
+
+  <!-- window -->
+  <g opacity="0.5" stroke="#0E5C42" stroke-width="7" fill="none">
+    <rect x="120" y="200" width="250" height="290" rx="18"/>
+    <line x1="245" y1="200" x2="245" y2="490"/>
+    <line x1="120" y1="345" x2="370" y2="345"/>
+  </g>
+
+  <!-- lamp glow -->
+  <ellipse cx="300" cy="880" rx="290" ry="240" fill="url(#glow)"/>
+
+  <!-- ===== figures (silhouettes, no faces) ===== -->
+  <!-- teacher -->
+  <g>
+    <circle cx="462" cy="672" r="66" fill="#0E5C42"/>
+    <path d="M366 1012 L366 884 Q366 778 462 778 Q558 778 558 884 L558 1012 Z" fill="#0E5C42"/>
+    <!-- scarf -->
+    <path d="M410 792 Q462 838 514 792 L508 900 Q462 872 416 900 Z" fill="#FFC531"/>
+    <!-- arm reaching toward the book -->
+    <path d="M552 838 Q640 866 664 946" stroke="#0E5C42" stroke-width="42" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- child -->
+  <g>
+    <circle cx="768" cy="746" r="52" fill="#E0552F"/>
+    <path d="M698 1012 L698 906 Q698 830 768 830 Q838 830 838 906 L838 1012 Z" fill="#E0552F"/>
+    <path d="M704 880 Q750 918 722 962" stroke="#E0552F" stroke-width="34" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- ===== table ===== -->
+  <ellipse cx="600" cy="1372" rx="430" ry="34" fill="#0A4331" opacity="0.1"/>
+  <rect x="140" y="1006" width="920" height="34" rx="17" fill="#0A4331"/>
+  <rect x="222" y="1040" width="34" height="316" rx="10" fill="#0A4331"/>
+  <rect x="944" y="1040" width="34" height="316" rx="10" fill="#0A4331"/>
+
+  <!-- open notebook -->
+  <g filter="url(#soft)" transform="rotate(-2 640 978)">
+    <rect x="530" y="946" width="220" height="62" rx="8" fill="#FFFFFF"/>
+    <line x1="640" y1="950" x2="640" y2="1004" stroke="#DDE5E0" stroke-width="4"/>
+    <g stroke="#C9D6CD" stroke-width="5" stroke-linecap="round">
+      <line x1="552" y1="966" x2="618" y2="966"/>
+      <line x1="552" y1="984" x2="606" y2="984"/>
+      <line x1="662" y1="966" x2="728" y2="966"/>
+      <line x1="662" y1="984" x2="712" y2="984"/>
+    </g>
+  </g>
+
+  <!-- lamp -->
+  <g>
+    <rect x="214" y="990" width="96" height="18" rx="9" fill="#0A4331"/>
+    <path d="M262 990 L262 856" stroke="#0A4331" stroke-width="12" stroke-linecap="round"/>
+    <path d="M262 856 L214 786 L338 786 Z" fill="#FFC531"/>
+    <rect x="206" y="778" width="140" height="18" rx="9" fill="#FFC531"/>
+  </g>
+
+  <!-- chai glass -->
+  <g>
+    <rect x="878" y="948" width="52" height="60" rx="8" fill="#FFF3D0" stroke="#0A4331" stroke-width="7"/>
+    <rect x="884" y="972" width="40" height="30" rx="4" fill="#E0552F" opacity="0.75"/>
+    <g stroke="#0A4331" stroke-width="6" stroke-linecap="round" opacity="0.35" fill="none">
+      <path d="M894 928 q10 -16 0 -32"/>
+      <path d="M916 928 q10 -16 0 -32"/>
+    </g>
+  </g>
+
+  <!-- book stack -->
+  <g>
+    <rect x="742" y="978" width="118" height="14" rx="6" fill="#3E7BC4"/>
+    <rect x="750" y="962" width="102" height="14" rx="6" fill="#E0552F"/>
+    <rect x="756" y="946" width="92" height="14" rx="6" fill="#FFC531"/>
+  </g>
+
+  <!-- floating cards -->
+  <g filter="url(#soft)">
+    <rect x="118" y="596" width="176" height="82" rx="18" fill="#FFFFFF"/>
+    <circle cx="164" cy="637" r="24" fill="#FFF3D0"/>
+    <text x="164" y="646" font-family="sans-serif" font-size="26" font-weight="bold" fill="#8A5D00" text-anchor="middle">π</text>
+    <rect x="200" y="620" width="72" height="11" rx="5.5" fill="#12211B"/>
+    <rect x="200" y="642" width="52" height="9" rx="4.5" fill="#C9D6CD"/>
+  </g>
+
+  <g filter="url(#soft)">
+    <rect x="890" y="560" width="182" height="82" rx="18" fill="#FFFFFF"/>
+    <circle cx="936" cy="601" r="24" fill="#E4EEF9"/>
+    <text x="936" y="611" font-family="sans-serif" font-size="26" font-weight="bold" fill="#265390" text-anchor="middle">♪</text>
+    <rect x="972" y="584" width="76" height="11" rx="5.5" fill="#12211B"/>
+    <rect x="972" y="606" width="54" height="9" rx="4.5" fill="#C9D6CD"/>
+  </g>
+
+  <g filter="url(#soft)">
+    <rect x="836" y="836" width="196" height="82" rx="18" fill="#FFFFFF"/>
+    <circle cx="882" cy="877" r="24" fill="#E6F2EC"/>
+    <path d="M872 877 l7 8 l14 -16" stroke="#0E5C42" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="918" y="860" width="88" height="11" rx="5.5" fill="#12211B"/>
+    <rect x="918" y="882" width="62" height="9" rx="4.5" fill="#C9D6CD"/>
+  </g>
+</svg>

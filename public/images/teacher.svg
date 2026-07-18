@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7FAF7"/>
+      <stop offset="100%" stop-color="#E9F2EC"/>
+    </linearGradient>
+    <filter id="soft2" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#0E5C42" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#wall)"/>
+  <circle cx="1420" cy="180" r="180" fill="#FFC531" opacity="0.22"/>
+  <circle cx="140" cy="1010" r="150" fill="#FDE9E2" opacity="0.8"/>
+
+  <!-- ===== board ===== -->
+  <g filter="url(#soft2)">
+    <rect x="150" y="120" width="900" height="600" rx="22" fill="#0E5C42"/>
+    <rect x="176" y="146" width="848" height="548" rx="12" fill="none" stroke="#2E7A5D" stroke-width="4"/>
+  </g>
+  <rect x="150" y="720" width="900" height="22" rx="11" fill="#0A4331"/>
+
+  <!-- chalk work -->
+  <g stroke="#EAF6F0" fill="none" stroke-linecap="round" opacity="0.92">
+    <text x="230" y="270" font-family="sans-serif" font-size="60" font-weight="bold" fill="#EAF6F0" stroke="none">a² + b² = c²</text>
+    <line x1="230" y1="300" x2="640" y2="300" stroke-width="5" opacity="0.5"/>
+
+    <!-- triangle -->
+    <path d="M250 600 L250 420 L430 600 Z" stroke-width="7"/>
+    <path d="M250 570 L280 570 L280 600" stroke-width="5" opacity="0.7"/>
+
+    <!-- graph -->
+    <g transform="translate(540,400)" stroke-width="6">
+      <line x1="0" y1="200" x2="260" y2="200" opacity="0.55"/>
+      <line x1="0" y1="200" x2="0" y2="10" opacity="0.55"/>
+      <path d="M0 190 C 70 190, 110 60, 250 30" stroke="#FFC531" stroke-width="8"/>
+    </g>
+
+    <!-- music note -->
+    <g transform="translate(860,200)" opacity="0.85">
+      <path d="M0 120 L0 20 L70 4 L70 104" stroke-width="7"/>
+      <ellipse cx="-16" cy="122" rx="18" ry="14" fill="#EAF6F0" stroke="none"/>
+      <ellipse cx="54" cy="106" rx="18" ry="14" fill="#EAF6F0" stroke="none"/>
+    </g>
+
+    <text x="850" y="440" font-family="sans-serif" font-size="52" font-weight="bold" fill="#EAF6F0" stroke="none" opacity="0.8">H₂O</text>
+    <text x="850" y="540" font-family="sans-serif" font-size="52" font-weight="bold" fill="#EAF6F0" stroke="none" opacity="0.8">ABC</text>
+  </g>
+
+  <!-- ===== teacher at the board (from behind) ===== -->
+  <g>
+    <circle cx="1195" cy="425" r="62" fill="#E0552F"/>
+    <path d="M1105 900 L1105 660 Q1105 555 1195 555 Q1285 555 1285 660 L1285 900 Z" fill="#E0552F"/>
+    <!-- arm pointing at the board -->
+    <path d="M1112 620 Q1030 600 1000 520" stroke="#E0552F" stroke-width="42" stroke-linecap="round" fill="none"/>
+    <circle cx="994" cy="508" r="24" fill="#E0552F"/>
+    <!-- hair tie / bun -->
+    <circle cx="1195" cy="368" r="26" fill="#C4441F"/>
+  </g>
+
+  <!-- ===== index cards pinned on the wall ===== -->
+  <g font-family="sans-serif">
+    <g filter="url(#soft2)" transform="rotate(-4 1400 640)">
+      <rect x="1310" y="600" width="200" height="86" rx="12" fill="#FFFFFF"/>
+      <circle cx="1410" cy="608" r="8" fill="#FFC531"/>
+      <text x="1332" y="646" font-size="24" font-weight="bold" fill="#0E5C42">T-2481</text>
+      <text x="1332" y="672" font-size="19" fill="#5F7268">Maths · Noida</text>
+    </g>
+    <g filter="url(#soft2)" transform="rotate(3 1400 780)">
+      <rect x="1330" y="740" width="200" height="86" rx="12" fill="#FFFFFF"/>
+      <circle cx="1430" cy="748" r="8" fill="#3E7BC4"/>
+      <text x="1352" y="786" font-size="24" font-weight="bold" fill="#0E5C42">T-2476</text>
+      <text x="1352" y="812" font-size="19" fill="#5F7268">Keyboard · DLF</text>
+    </g>
+  </g>
+
+  <!-- ===== desk in the foreground ===== -->
+  <rect x="0" y="1000" width="1600" height="30" rx="15" fill="#0A4331"/>
+  <rect x="180" y="1030" width="36" height="170" rx="10" fill="#0A4331"/>
+  <rect x="1380" y="1030" width="36" height="170" rx="10" fill="#0A4331"/>
+
+  <!-- books -->
+  <g>
+    <rect x="300" y="972" width="150" height="16" rx="7" fill="#3E7BC4"/>
+    <rect x="310" y="952" width="130" height="16" rx="7" fill="#FFC531"/>
+    <rect x="318" y="932" width="114" height="16" rx="7" fill="#E0552F"/>
+  </g>
+
+  <!-- chai -->
+  <g transform="translate(1140,0)">
+    <rect x="0" y="936" width="56" height="64" rx="8" fill="#FFF3D0" stroke="#0A4331" stroke-width="7"/>
+    <rect x="7" y="962" width="42" height="32" rx="4" fill="#E0552F" opacity="0.75"/>
+    <g stroke="#0A4331" stroke-width="6" stroke-linecap="round" opacity="0.35" fill="none">
+      <path d="M16 916 q10 -16 0 -32"/>
+      <path d="M40 916 q10 -16 0 -32"/>
+    </g>
+  </g>
+
+  <!-- marker -->
+  <g transform="rotate(-8 700 990)">
+    <rect x="640" y="978" width="120" height="22" rx="11" fill="#FFFFFF" stroke="#DDE5E0" stroke-width="4"/>
+    <rect x="736" y="978" width="26" height="22" rx="8" fill="#0E5C42"/>
+  </g>
+</svg>
