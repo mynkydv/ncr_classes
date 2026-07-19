@@ -4,9 +4,9 @@
 
 export const CONFIG = {
   // Your WhatsApp number: country code, no + and no spaces
-  phone: "919999999999",
+  phone: "917652067918",
 
-  email: "hello@ncrclasses.in",
+  email: "ncr.classes.connect@gmail.com",
   instagram: "ncrclasses.connect",
 
   // Where form submissions are POSTed.
