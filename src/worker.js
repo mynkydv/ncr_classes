@@ -3,10 +3,6 @@
 // Static assets are served automatically by the assets binding. Only the
 // paths listed in `run_worker_first` (see wrangler.jsonc) reach this script,
 // so everything here is API handling — never asset serving.
-//
-// To actually store leads, uncomment ONE of the options below and set the
-// matching variable in the Cloudflare dashboard (Worker → Settings →
-// Variables and Secrets). Secrets arrive on `env`, NOT on `process.env`.
 
 export default {
   async fetch(request, env) {
@@ -23,6 +19,11 @@ export default {
   }
 };
 
+// Columns that exist in Airtable. Everything else a form collects is folded
+// into Details, so adding or renaming a form field can never 422 the request
+// with UNKNOWN_FIELD_NAME. Keep this list in sync with the Airtable table.
+const COLUMNS = ["Reference", "Type", "Name", "Phone", "Email"];
+
 async function handleLead(request, env) {
   let lead;
   try {
@@ -31,30 +32,66 @@ async function handleLead(request, env) {
     return json({ error: "Expected JSON body" }, 400);
   }
 
-  console.log("New lead:", JSON.stringify(lead));
+  const stored = await saveToAirtable(lead, env);
 
-  // ---- Option A: Airtable -------------------------------------------------
-  // Vars needed: AIRTABLE_TOKEN, AIRTABLE_BASE, AIRTABLE_TABLE
-  //
-  // await fetch(`https://api.airtable.com/v0/${env.AIRTABLE_BASE}/${env.AIRTABLE_TABLE}`, {
-  //   method: "POST",
-  //   headers: {
-  //     Authorization: `Bearer ${env.AIRTABLE_TOKEN}`,
-  //     "Content-Type": "application/json"
-  //   },
-  //   body: JSON.stringify({ fields: lead })
-  // });
+  // Always 200, even when storage fails: the success screen offers a WhatsApp
+  // hand-off carrying the full requirement, and that is a better outcome than
+  // an error page. `stored` lets the client push harder on that hand-off.
+  return json({ ok: true, stored, reference: lead.Reference });
+}
 
-  // ---- Option B: Google Sheet via Apps Script webhook ---------------------
-  // Var needed: SHEET_WEBHOOK
-  //
-  // await fetch(env.SHEET_WEBHOOK, {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(lead)
-  // });
+async function saveToAirtable(lead, env) {
+  const { AIRTABLE_TOKEN, AIRTABLE_BASE, AIRTABLE_TABLE } = env;
 
-  return json({ ok: true, reference: lead.Reference });
+  if (!AIRTABLE_TOKEN || !AIRTABLE_BASE || !AIRTABLE_TABLE) {
+    console.error("Airtable not configured — lead not stored:", JSON.stringify(lead));
+    return false;
+  }
+
+  // Split the payload: known columns go to their own fields, the rest is
+  // rendered as readable "Label: value" lines in Details.
+  const fields = {};
+  const extras = [];
+
+  for (const [key, value] of Object.entries(lead)) {
+    if (value === undefined || value === null || value === "") continue;
+    if (COLUMNS.includes(key)) fields[key] = String(value);
+    else extras.push(`${key}: ${value}`);
+  }
+
+  if (extras.length) fields.Details = extras.join("\n");
+
+  try {
+    const res = await fetch(
+      `https://api.airtable.com/v0/${AIRTABLE_BASE}/${encodeURIComponent(AIRTABLE_TABLE)}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        // typecast lets Airtable create select options it has not seen before
+        // rather than rejecting the whole record.
+        body: JSON.stringify({ fields, typecast: true })
+      }
+    );
+
+    if (!res.ok) {
+      // Log the lead alongside the error so it is recoverable from logs.
+      const detail = await res.text();
+      console.error(
+        `Airtable ${res.status}: ${detail} — lead not stored:`,
+        JSON.stringify(lead)
+      );
+      return false;
+    }
+
+    console.log("Lead stored:", lead.Reference);
+    return true;
+  } catch (err) {
+    console.error(`Airtable request failed: ${err} — lead not stored:`, JSON.stringify(lead));
+    return false;
+  }
 }
 
 function json(body, status = 200) {

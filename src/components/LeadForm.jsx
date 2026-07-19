@@ -32,20 +32,30 @@ export default function LeadForm({ prefix, kind, submitLabel, note, children }) 
     const ref = makeRef(prefix);
     setBusy(true);
 
+    // Did the requirement actually reach our records? If anything goes wrong
+    // we still show the success screen — but we lead with the WhatsApp
+    // hand-off instead of implying we have their details when we do not.
+    let stored = false;
+
     if (CONFIG.endpoint) {
       try {
-        await fetch(CONFIG.endpoint, {
+        const res = await fetch(CONFIG.endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({ ...data, Reference: ref, Type: kind })
         });
+        // fetch only rejects on network failure, so check the status too.
+        if (res.ok) {
+          const body = await res.json().catch(() => ({}));
+          stored = body.stored === true;
+        }
       } catch {
         // network failed — the WhatsApp hand-off below still works
       }
     }
 
     setBusy(false);
-    setDone({ ref, name: data.Name, text: summarise(data, ref) });
+    setDone({ ref, stored, name: data.Name, text: summarise(data, ref) });
   }
 
   if (done) {
@@ -53,13 +63,27 @@ export default function LeadForm({ prefix, kind, submitLabel, note, children }) 
       <div className="ok show">
         <div className="tick">✓</div>
         <h3>Got it — <span className="reftag">{done.ref}</span></h3>
-        <p>
-          Thanks{done.name ? `, ${done.name.split(" ")[0]}` : ""}. Your requirement is logged
-          and we'll be in touch on WhatsApp, usually the same day.
-        </p>
-        <p style={{ marginBottom: 22 }}>
-          Want to speed it up? Send the same details on WhatsApp and we'll pick it up right away.
-        </p>
+        {done.stored ? (
+          <>
+            <p>
+              Thanks{done.name ? `, ${done.name.split(" ")[0]}` : ""}. Your requirement is logged
+              and we'll be in touch on WhatsApp, usually the same day.
+            </p>
+            <p style={{ marginBottom: 22 }}>
+              Want to speed it up? Send the same details on WhatsApp and we'll pick it up right away.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              Thanks{done.name ? `, ${done.name.split(" ")[0]}` : ""}. We couldn't save your
+              requirement just now — so please send it on WhatsApp to be sure it reaches us.
+            </p>
+            <p style={{ marginBottom: 22 }}>
+              The button below has all your details filled in already. One tap.
+            </p>
+          </>
+        )}
         <a className="btn btn--mark" target="_blank" rel="noopener noreferrer" href={waURL(done.text)}>
           Send on WhatsApp →
         </a>
