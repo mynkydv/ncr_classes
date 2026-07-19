@@ -32,20 +32,35 @@ async function handleLead(request, env) {
     return json({ error: "Expected JSON body" }, 400);
   }
 
-  const stored = await saveToAirtable(lead, env);
+  const reason = await saveToAirtable(lead, env);
 
   // Always 200, even when storage fails: the success screen offers a WhatsApp
   // hand-off carrying the full requirement, and that is a better outcome than
   // an error page. `stored` lets the client push harder on that hand-off.
-  return json({ ok: true, stored, reference: lead.Reference });
+  //
+  // `reason` is a short code (never the raw Airtable body or any credential)
+  // so a failure can be diagnosed from the response without digging through
+  // logs. Safe to expose: it names the failure class, not the cause detail.
+  return json({
+    ok: true,
+    stored: reason === null,
+    ...(reason ? { reason } : {}),
+    reference: lead.Reference
+  });
 }
 
+// Returns null on success, or a short failure code.
 async function saveToAirtable(lead, env) {
   const { AIRTABLE_TOKEN, AIRTABLE_BASE, AIRTABLE_TABLE } = env;
 
   if (!AIRTABLE_TOKEN || !AIRTABLE_BASE || !AIRTABLE_TABLE) {
+    const missing = [
+      !AIRTABLE_TOKEN && "AIRTABLE_TOKEN",
+      !AIRTABLE_BASE && "AIRTABLE_BASE",
+      !AIRTABLE_TABLE && "AIRTABLE_TABLE"
+    ].filter(Boolean);
     console.error("Airtable not configured — lead not stored:", JSON.stringify(lead));
-    return false;
+    return `missing_env:${missing.join(",")}`;
   }
 
   // Split the payload: known columns go to their own fields, the rest is
@@ -83,14 +98,20 @@ async function saveToAirtable(lead, env) {
         `Airtable ${res.status}: ${detail} — lead not stored:`,
         JSON.stringify(lead)
       );
-      return false;
+      // Airtable's error `type` (UNKNOWN_FIELD_NAME, NOT_FOUND, ...) names the
+      // problem without exposing the request or any credential.
+      let type = "";
+      try {
+        type = JSON.parse(detail)?.error?.type ?? JSON.parse(detail)?.error ?? "";
+      } catch { /* non-JSON body — status alone is enough */ }
+      return `airtable_${res.status}${type ? `:${type}` : ""}`;
     }
 
     console.log("Lead stored:", lead.Reference);
-    return true;
+    return null;
   } catch (err) {
     console.error(`Airtable request failed: ${err} — lead not stored:`, JSON.stringify(lead));
-    return false;
+    return "airtable_unreachable";
   }
 }
 
