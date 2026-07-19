@@ -217,7 +217,7 @@ export default function Home() {
         <div className="wrap">
           <Reveal className="head">
             <span className="kicker">Why choose us</span>
-            <h2>A portal sells you a list.<br />We take responsibility for the match.</h2>
+            <h2>A portal sells a service. We build relationships.<br />We know our teachers. We stand by every match.</h2>
           </Reveal>
           <div className="cards">
             {WHY.map((w, i) => (
