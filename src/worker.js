@@ -1,15 +1,29 @@
-// Cloudflare Pages Function: receives form submissions.
+// Cloudflare Worker: serves the built SPA from ./dist and handles /api/*.
 //
-// The file path sets the route — functions/api/lead.js serves /api/lead.
-// Exporting onRequestPost means only POST reaches this handler; anything
-// else gets a 405 from the runtime automatically.
+// Static assets are served automatically by the assets binding. Only the
+// paths listed in `run_worker_first` (see wrangler.jsonc) reach this script,
+// so everything here is API handling — never asset serving.
 //
-// Right now it just logs and returns OK, so nothing breaks in production.
 // To actually store leads, uncomment ONE of the options below and set the
-// matching variable in Cloudflare (Pages project → Settings → Environment
-// variables). Note secrets arrive on `env`, NOT on `process.env`.
+// matching variable in the Cloudflare dashboard (Worker → Settings →
+// Variables and Secrets). Secrets arrive on `env`, NOT on `process.env`.
 
-export async function onRequestPost({ request, env }) {
+export default {
+  async fetch(request, env) {
+    const { pathname } = new URL(request.url);
+
+    if (pathname === "/api/lead") {
+      if (request.method !== "POST") {
+        return json({ error: "Method not allowed" }, 405);
+      }
+      return handleLead(request, env);
+    }
+
+    return json({ error: "Not found" }, 404);
+  }
+};
+
+async function handleLead(request, env) {
   let lead;
   try {
     lead = await request.json();

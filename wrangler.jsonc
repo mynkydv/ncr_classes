@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ncr-classes",
+  "main": "./src/worker.js",
+  "compatibility_date": "2026-07-18",
+  "assets": {
+    "directory": "./dist/",
+    "binding": "ASSETS",
+
+    // Serve index.html for any path with no matching asset, so react-router
+    // handles /find-a-tutor and friends on a hard refresh.
+    "not_found_handling": "single-page-application",
+
+    // Without this, the SPA fallback above would swallow /api/lead and return
+    // index.html instead of invoking the Worker. These paths skip asset
+    // serving and go straight to src/worker.js.
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

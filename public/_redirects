@@ -1,5 +1,0 @@
-# SPA fallback: serve index.html for any path with no matching asset, so
-# react-router handles /find-a-tutor, /join-as-tutor and /for-schools on a
-# hard refresh. Pages Functions (/api/*) are matched before this rule, so
-# the lead endpoint is unaffected.
-/*  /index.html  200
