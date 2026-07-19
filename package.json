@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "cf:dev": "npm run build && wrangler dev",
-    "cf:deploy": "npm run build && wrangler deploy"
+    "cf:dev": "npm run build && wrangler dev"
   },
   "dependencies": {
     "react": "^18.3.1",
