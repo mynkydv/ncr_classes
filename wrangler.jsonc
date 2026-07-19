@@ -16,13 +16,19 @@
     // serving and go straight to src/worker.js.
     "run_worker_first": ["/api/*"]
   },
-  // AIRTABLE_TOKEN, AIRTABLE_BASE and AIRTABLE_TABLE are set as Secrets in the
-  // dashboard, NOT as plaintext variables.
+  // Non-secret Airtable config lives here, not in the dashboard: `wrangler
+  // deploy` treats this file as the source of truth for `vars` and wipes any
+  // plaintext variable set through the UI on the next deploy.
   //
-  // `wrangler deploy` treats this file as the source of truth for `vars`, so
-  // any plaintext variable set in the dashboard is wiped on the next deploy.
-  // Secrets are managed separately and survive. If you ever move these into a
-  // "vars" block here, they must live in this file or they will vanish again.
+  // AIRTABLE_BASE is the base id only -- the "app..." segment of the Airtable
+  // URL, with no table id after it. Appending "/tbl..." here yields a 404.
+  //
+  // AIRTABLE_TOKEN is a credential and is NOT in this file. It is stored as a
+  // Secret (`wrangler secret put AIRTABLE_TOKEN`), which deploys never touch.
+  "vars": {
+    "AIRTABLE_BASE": "app8Mqx8uc9THZa1Y",
+    "AIRTABLE_TABLE": "Leads"
+  },
 
   "observability": {
     "enabled": true
