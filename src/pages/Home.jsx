@@ -216,7 +216,7 @@ export default function Home() {
       <section className="sec sec--green" id="how">
         <div className="wrap">
           <Reveal className="head">
-            <span className="kicker">Why not a big portal</span>
+            <span className="kicker">Why choose us</span>
             <h2>A portal sells you a list.<br />We take responsibility for the match.</h2>
           </Reveal>
           <div className="cards">
