@@ -16,6 +16,14 @@
     // serving and go straight to src/worker.js.
     "run_worker_first": ["/api/*"]
   },
+  // AIRTABLE_TOKEN, AIRTABLE_BASE and AIRTABLE_TABLE are set as Secrets in the
+  // dashboard, NOT as plaintext variables.
+  //
+  // `wrangler deploy` treats this file as the source of truth for `vars`, so
+  // any plaintext variable set in the dashboard is wiped on the next deploy.
+  // Secrets are managed separately and survive. If you ever move these into a
+  // "vars" block here, they must live in this file or they will vanish again.
+
   "observability": {
     "enabled": true
   }
