@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ncr-classes",
+  "name": "ncrclasses01",
   "main": "./src/worker.js",
   "compatibility_date": "2026-07-18",
   "assets": {
